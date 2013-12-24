@@ -1,0 +1,35 @@
+﻿<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+        <title>Editor Demo</title>
+
+        <script type="text/javascript">
+            window.DEBUG = true;
+        </script>
+
+        <link rel="stylesheet/less" href="./css/main.less" />
+    </head>
+    <body>
+        <div id="main"></div>
+        <script type="text/html" id="editorButtonTmpl">
+            <button class="button <%=className%>" title="<%=label%>"><%=label%></button>
+        </script>
+        <script type="text/html" id="editorAreaHeadTmpl">
+            <link rel="stylesheet" href="./css/content.css" />
+        </script>
+        <script type="text/html" id="editorAreaBodyTmpl">
+            <article class="editor-area"><div><br /></div></article>
+        </script>
+        <script type="text/html" id="editorPanelTmpl">
+            <div class="panel"></div>
+        </script>
+
+        <script src="./scripts/vender/less.js" type="text/javascript"></script>
+        <script src="./scripts/vender/underscore.js" type="text/javascript"></script>
+        <script src="./scripts/vender/jquery.js" type="text/javascript"></script>
+        <script src="./scripts/vender/backbone.js" type="text/javascript"></script>
+        <script src="./scripts/vender/sea.js" data-main="./main" type="text/javascript"></script>
+    </body>
+</html>

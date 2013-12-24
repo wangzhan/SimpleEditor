@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="file:///D:/%E5%BF%AB%E7%9B%98/Code/SimpleEdtior/common/util/todoUniqueId.js"></script>
+        <script src="file:///D:/%E5%BF%AB%E7%9B%98/Code/SimpleEdtior/scripts/util/console.js"></script>
+        <script src="file:///D:/%E5%BF%AB%E7%9B%98/Code/SimpleEdtior/scripts/util/CEFApiInterface.js"></script>
+        <script src="file:///D:/%E5%BF%AB%E7%9B%98/Code/SimpleEdtior/scripts/view/buttonView.js"></script>
+        <script src="file:///D:/%E5%BF%AB%E7%9B%98/Code/SimpleEdtior/scripts/view/ButtonView.js"></script>
+        <script src="file:///D:/%E5%BF%AB%E7%9B%98/Code/SimpleEdtior/scripts/lib/jquery.js"></script>
+        <script src="file:///D:/%E5%BF%AB%E7%9B%98/Code/SimpleEdtior/scripts/util/cef.js"></script>
+        <script src="file:///D:/%E5%BF%AB%E7%9B%98/Code/SimpleEdtior/scripts/command/commander.js"></script>
+        <script src="file:///D:/%E5%BF%AB%E7%9B%98/Code/SimpleEdtior/scripts/view/panelView.js"></script>
+        <script src="file:///D:/%E5%BF%AB%E7%9B%98/Code/SimpleEdtior/scripts/view/areaView.js"></script>
+        <script src="file:///D:/%E5%BF%AB%E7%9B%98/Code/SimpleEdtior/scripts/util/dom.js"></script>
+        <script src="file:///D:/%E5%BF%AB%E7%9B%98/Code/SimpleEdtior/scripts/util/userAgent.js"></script>
+        <script src="file:///D:/%E5%BF%AB%E7%9B%98/Code/SimpleEdtior/scripts/lib/underscore.js"></script>
+        <script src="file:///D:/%E5%BF%AB%E7%9B%98/Code/SimpleEdtior/scripts/lib/backbone.js"></script>
+        <script src="file:///D:/%E5%BF%AB%E7%9B%98/Code/SimpleEdtior/scripts/command/nativeCommand.js"></script>
+        <script src="file:///D:/%E5%BF%AB%E7%9B%98/Code/SimpleEdtior/scripts/toolbar/toggle.js"></script>
+        <script src="file:///D:/%E5%BF%AB%E7%9B%98/Code/SimpleEdtior/scripts/toolbar/bold.js"></script>
+        <script src="file:///D:/%E5%BF%AB%E7%9B%98/Code/SimpleEdtior/scripts/view/editorView.js"></script>
+        <script src="file:///D:/%E5%BF%AB%E7%9B%98/Code/SimpleEdtior/main.js"></script>
+        <meta content="text/html; charset=utf-8" http-equiv="content-type"></meta>
+        <title>
+
+            Editor Demo
+
+        </title>
+        <script type="text/javascript">
+
+
+                        window.DEBUG = true;
+                    
+
+        </script>
+        <link href="./css/main.less" rel="stylesheet/less"></link>
+        <style id="less:file-D-E5-BF-AB-E7-9B-98-Code-SimpleEdtior-css-main" type="text/css" media="screen">
+
+            #colorTheme .white-bg {
+              background-color: #ffffff;
+            }
+            #colorTheme .trans-bg {
+              background-color: transparent;
+            }
+            #colorTheme .dark-text {
+              color: #3a3a3a;
+            }
+            .resize-layer {
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              top: 0;
+              left: 0;
+              pointer-events: none;
+              overflow: hidden;
+              /* ----------------------- 公用样式 -----------------------*/
+
+              /* ----------------------- 自身样式 -----------------------*/
+
+              /* ----------------------- 内容样式 -----------------------*/
+
+            }
+            .resize-layer .active-handler {
+              border-radius: 11px 11px 11px 11px;
+              -webkit-border-radius: 11px 11px 11px 11px;
+              -moz-border-radius: 11px 11px 11px 11px;
+              -o-border-radius: 11px 11px 11px 11px;
+              background-color: #999999;
+            }
+            .resize-layer.resize-active {
+              pointer-events: all;
+            }
+            .resize-layer.resize-active .resize-box {
+              background-color: rgba(0, 0, 0, 0.1);
+            }
+            .resize-layer.resize-active .resize-handler {
+              border-radius: 11px 11px 11px 11px;
+              -webkit-border-radius: 11px 11px 11px 11px;
+              -moz-border-radius: 11px 11px 11px 11px;
+              -o-border-radius: 11px 11px 11px 11px;
+              background-color: #999999;
+            }
+            .resize-layer .resize-box {
+              position: absolute;
+              border: 1px solid #D2D2D2;
+            }
+            .resize-layer .resize-handler {
+              background-color: #ffffff;
+              -webkit-transition: all 0.3s ease-in-out 0;
+              -moz-transition: all 0.3s ease-in-out 0;
+              -o-transition: all 0.3s ease-in-out 0;
+              transition: all 0.3s ease-in-out 0;
+              width: 9px;
+              height: 9px;
+              border: 1px solid #999999;
+              position: absolute;
+              pointer-events: all;
+            }
+            .resize-layer .resize-handler:hover {
+              border-radius: 11px 11px 11px 11px;
+              -webkit-border-radius: 11px 11px 11px 11px;
+              -moz-border-radius: 11px 11px 11px 11px;
+              -o-border-radius: 11px 11px 11px 11px;
+              background-color: #999999;
+            }
+            .resize-layer .resize-handler.position-0 {
+              top: -3.6666666666666665px;
+              left: -3.6666666666666665px;
+              cursor: nw-resize;
+            }
+            .resize-layer .resize-handler.position-1 {
+              top: -3.6666666666666665px;
+              right: -3.6666666666666665px;
+              cursor: ne-resize;
+            }
+            .resize-layer .resize-handler.position-2 {
+              bottom: -3.6666666666666665px;
+              right: -3.6666666666666665px;
+              cursor: nw-resize;
+            }
+            .resize-layer .resize-handler.position-3 {
+              bottom: -3.6666666666666665px;
+              left: -3.6666666666666665px;
+              cursor: ne-resize;
+            }
+            #toolbar .active {
+              box-shadow: inset 1px 1px 2px #d5d5d5;
+              -webkit-box-shadow: inset 1px 1px 2px #d5d5d5;
+              -moz-box-shadow: inset 1px 1px 2px #d5d5d5;
+              -o-box-shadow: inset 1px 1px 2px #d5d5d5;
+              background-image: -webkit-linear-gradient(top, #f2f2f2, white);
+              border-color: #d2d2d2;
+            }
+            #toolbar .item {
+              -webkit-transition: all 0.3s ease-in-out 0;
+              -moz-transition: all 0.3s ease-in-out 0;
+              -o-transition: all 0.3s ease-in-out 0;
+              transition: all 0.3s ease-in-out 0;
+              float: left;
+              margin: 2px;
+              border: 1px solid transparent;
+            }
+            #toolbar .item.disabled {
+              opacity: 0.4;
+            }
+            #toolbar .item:not(.disabled):active {
+              box-shadow: inset 1px 1px 2px #d5d5d5;
+              -webkit-box-shadow: inset 1px 1px 2px #d5d5d5;
+              -moz-box-shadow: inset 1px 1px 2px #d5d5d5;
+              -o-box-shadow: inset 1px 1px 2px #d5d5d5;
+              background-image: -webkit-linear-gradient(top, #f2f2f2, white);
+              border-color: #d2d2d2;
+            }
+            #toolbar .item:not(.disabled):hover {
+              box-shadow: 1px 1px 2px #d5d5d5;
+              -webkit-box-shadow: 1px 1px 2px #d5d5d5;
+              -moz-box-shadow: 1px 1px 2px #d5d5d5;
+              -o-box-shadow: 1px 1px 2px #d5d5d5;
+              border-color: #999999 !important;
+            }
+            #toolbar .spirit-bg {
+              background-image: url(file:///D:/%E5%BF%AB%E7%9B%98/Code/SimpleEdtior/css/././icons.png);
+            }
+            .panel-wrap {
+              -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+            }
+            .panel-wrap.shrink .panel {
+              padding-right: 26px;
+            }
+            .panel-wrap .panel {
+              height: 28px;
+            }
+            .panel-wrap.deep-shadow {
+              -webkit-box-shadow: 0 2px 9px rgba(0, 0, 0, 0.25);
+            }
+            .span {
+              box-shadow: 1px 0 0 #ffffff;
+              -webkit-box-shadow: 1px 0 0 #ffffff;
+              -moz-box-shadow: 1px 0 0 #ffffff;
+              -o-box-shadow: 1px 0 0 #ffffff;
+              position: relative;
+              margin: 2px 3px;
+              width: 1px;
+              height: 24px;
+              float: left;
+              background: #d2d2d2;
+            }
+            .button-wrap {
+              -webkit-transition: all 0.3s ease-in-out 0;
+              -moz-transition: all 0.3s ease-in-out 0;
+              -o-transition: all 0.3s ease-in-out 0;
+              transition: all 0.3s ease-in-out 0;
+              float: left;
+              margin: 2px;
+              border: 1px solid transparent;
+              border-radius: 2px 2px 2px 2px;
+              -webkit-border-radius: 2px 2px 2px 2px;
+              -moz-border-radius: 2px 2px 2px 2px;
+              -o-border-radius: 2px 2px 2px 2px;
+            }
+            .button-wrap.disabled {
+              opacity: 0.4;
+            }
+            .button-wrap:not(.disabled):active {
+              box-shadow: inset 1px 1px 2px #d5d5d5;
+              -webkit-box-shadow: inset 1px 1px 2px #d5d5d5;
+              -moz-box-shadow: inset 1px 1px 2px #d5d5d5;
+              -o-box-shadow: inset 1px 1px 2px #d5d5d5;
+              background-image: -webkit-linear-gradient(top, #f2f2f2, white);
+              border-color: #d2d2d2;
+            }
+            .button-wrap:not(.disabled):hover {
+              box-shadow: 1px 1px 2px #d5d5d5;
+              -webkit-box-shadow: 1px 1px 2px #d5d5d5;
+              -moz-box-shadow: 1px 1px 2px #d5d5d5;
+              -o-box-shadow: 1px 1px 2px #d5d5d5;
+              border-color: #999999 !important;
+            }
+            .button-wrap.button-active {
+              box-shadow: inset 1px 1px 2px #d5d5d5;
+              -webkit-box-shadow: inset 1px 1px 2px #d5d5d5;
+              -moz-box-shadow: inset 1px 1px 2px #d5d5d5;
+              -o-box-shadow: inset 1px 1px 2px #d5d5d5;
+              background-image: -webkit-linear-gradient(top, #f2f2f2, white);
+              border-color: #d2d2d2;
+            }
+            .button-wrap .button {
+              background-image: url(file:///D:/%E5%BF%AB%E7%9B%98/Code/SimpleEdtior/css/././icons.png);
+              background-color: transparent;
+              cursor: pointer;
+              height: 22px;
+              width: 22px;
+              padding: 0;
+              margin: 0;
+              border: none;
+              text-indent: -999em;
+              /* css spirit 中第一行的按钮*/
+
+              /*hover 状态 */
+
+              /* css spirit 中第一行的按钮*/
+
+            }
+            .button-wrap .button.button-bold {
+              background-position: -50px -59px;
+            }
+            .button-wrap .button.button-toggle {
+              background-position: -146px -81px;
+            }
+            .button-wrap .button.button-bold:not(.disabled):hover {
+              background-position: -50px -155px;
+            }
+            .button-wrap .button.button-toggle:not(.disabled):hover {
+              background-position: -146px -177px;
+            }
+            html, body {
+              height: 100%;
+              width: 100%;
+              overflow: hidden;
+            }
+            body {
+              font-size: 12px;
+              font-family: 'Microsoft YaHei', '微软雅黑', 'Microsoft JhengHei', '华文黑体', STHeiti, sans-serif;
+            }
+            .wrap {
+              background-color: #ffffff;
+            }
+            .wrap .area-wrap {
+              height: 100%;
+              width: 100%;
+            }
+            .wrap .panel-wrap {
+              background: #FFF;
+              padding: 3px 0px 3px 5px;
+              border-bottom: 1px solid #FFF;
+              position: relative;
+              z-index: 20;
+            }
+            .wrap .panel-wrap .panel {
+              overflow: hidden;
+            }
+
+        </style>
+    </head>
+    <body>
+        <section class="wrap">
+            <div class="panel-wrap">
+                <div class="panel">
+                    <div class="button-wrap button-wrap-bold">
+                        <button class="button button-bold" title="粗体">
+
+                            粗体
+
+                        </button>
+                    </div>
+                    <div class="button-wrap button-wrap-toggle">
+                        <button class="button button-toggle" title="切换">
+
+                            切换
+
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <iframe class="area-wrap">
+                #document
+                    <html>
+                        <head>
+                            <link href="./css/content.css" rel="stylesheet"></link>
+                        </head>
+                        <body>
+                            <article class="editor-area" contenteditable="true">
+                                <div>
+                                    <br></br>
+                                </div>
+                            </article>
+                        </body>
+                    </html>
+            </iframe>
+        </section>
+        <div id="main" style="display: none;"></div>
+        <script id="editorButtonTmpl" type="text/html">
+
+
+                        <button class="button <%=className%>"…
+
+        </script>
+        <script id="editorAreaHeadTmpl" type="text/html">
+
+
+                        <link rel="stylesheet" href="./css/co…
+
+        </script>
+        <script id="editorAreaBodyTmpl" type="text/html">
+
+
+                        <article class="editor-area"><div><br…
+
+        </script>
+        <script id="editorPanelTmpl" type="text/html">
+
+
+                        <div class="panel"></div>
+                    
+
+        </script>
+        <script type="text/javascript" src="./scripts/vender/less.js"></script>
+        <script type="text/javascript" src="./scripts/vender/underscore.js"></script>
+        <script type="text/javascript" src="./scripts/vender/jquery.js"></script>
+        <script type="text/javascript" src="./scripts/vender/backbone.js"></script>
+        <script type="text/javascript" data-main="./main" src="./scripts/vender/sea.js"></script>
+    </body>
+</html>
