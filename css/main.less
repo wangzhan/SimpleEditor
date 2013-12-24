@@ -1,0 +1,37 @@
+﻿@import "./colorTheme";
+@import "./layerIndex";
+@import "./accessory";
+@import "./mod";
+@import "./toolbar";
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+body {
+    font-size: 12px;
+    font-family: 'Microsoft YaHei', '微软雅黑', 'Microsoft JhengHei', '华文黑体', STHeiti, sans-serif;
+}
+
+.wrap {
+    #colorTheme > .white-bg;
+
+    .area-wrap {
+        height: 90%;
+        width: 90%;
+    }
+
+    .panel-wrap {
+        background: #FFF;
+        padding: 3px 0px 3px 5px;
+        border-bottom: 1px solid #FFF;
+        position: relative;
+        z-index: @z-toolbar;
+
+        .panel {
+            overflow: hidden;
+        }
+    }
+}

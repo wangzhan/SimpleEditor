@@ -1,0 +1,78 @@
+.resize-layer {
+    @handler-width: 9px;
+    @handler-border-width: 1px;
+    @radius: @handler-width + @handler-border-width * 2;
+    @handler-offset: -((@handler-width + 2 * @handler-border-width) / 3);
+
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    overflow: hidden;
+
+    /* ----------------------- 公用样式 -----------------------*/
+    .active-handler {
+        #accessory > .border-radius(@radius, @radius, @radius, @radius);
+        background-color: @color-border-dark;
+    }
+
+    /* ----------------------- 自身样式 -----------------------*/
+    &.resize-active {
+        pointer-events: all;
+
+        .resize-box {
+            #accessory > .alpha-bg(0.1);
+        }
+
+        .resize-handler {
+            .resize-layer > .active-handler;
+        }
+    }
+
+    /* ----------------------- 内容样式 -----------------------*/
+    .resize-box {
+        position: absolute;
+        border: 1px solid #D2D2D2;
+    }
+
+    .resize-handler {
+        #colorTheme > .white-bg;
+        #accessory > .transition();
+
+        width: @handler-width;
+        height: @handler-width;
+        border: @handler-border-width solid @color-border-dark;
+        position: absolute;
+        pointer-events: all;
+
+        &:hover {
+            .resize-layer > .active-handler;
+        }
+
+        &.position-0 {
+            top: @handler-offset;
+            left: @handler-offset;
+            cursor: nw-resize;
+        }
+
+        &.position-1 {
+            top: @handler-offset;
+            right: @handler-offset;
+            cursor: ne-resize;
+        }
+
+        &.position-2 {
+            bottom: @handler-offset;
+            right: @handler-offset;
+            cursor: nw-resize;
+        }
+
+        &.position-3 {
+            bottom: @handler-offset;
+            left: @handler-offset;
+            cursor: ne-resize;
+        }
+    }
+}

@@ -1,0 +1,131 @@
+// 全局变量，加 toolbar- 做前缀
+@toolbar-button-width: 22px;
+@toolbar-button-height: 22px;
+@toolbar-arrow-width: 12px;
+@toolbar-item-border-width: 1px;
+@toolbar-item-margin: 2px;
+
+// 公用样式定义
+#toolbar {
+    .active {
+        #accessory > .box-shadow(inset 1px, 1px, 2px, @color-shadow);
+
+        background-image: -webkit-linear-gradient(top, #F2F2F2, white);
+        border-color: @color-border-light;
+    }
+
+    .hover (@border-color: @color-border-dark) {
+        #accessory > .box-shadow(1px, 1px, 2px, @color-shadow);
+
+        border-color: @border-color !important;
+    }
+
+    .item {
+        #accessory > .transition();
+
+        float: left;
+        margin: @toolbar-item-margin;
+        border: @toolbar-item-border-width solid transparent;
+
+
+        &.disabled {
+            opacity: 0.4;
+        }
+
+        &:not(.disabled) {
+            &:active {
+                #toolbar > .active;
+            }
+
+            &:hover {
+                #toolbar > .hover;
+            }
+        }
+    }
+
+    .spirit-bg {
+        background-image: url(./icons.png);
+    }
+}
+
+// 工具栏
+.panel-wrap {
+    -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+
+    &.shrink {
+        .panel {
+            padding-right: @toolbar-button-width + @toolbar-item-margin +
+                @toolbar-item-border-width * 2;
+        }
+    }
+
+    .panel {
+        height: @toolbar-button-height + @toolbar-item-margin * 2 +
+            @toolbar-item-border-width * 2;
+    }
+}
+
+.panel-wrap.deep-shadow{
+    -webkit-box-shadow: 0 2px 9px rgba(0, 0, 0, 0.25);
+}
+
+// 工具栏元素分割线
+.span {
+    #accessory > .box-shadow(1px, 0, 0, @color-background);
+    position: relative;
+    margin: 2px 3px;
+    width: @toolbar-item-border-width;
+    height: 24px;
+    float: left;
+    background: @color-border-light;
+}
+
+// 工具栏按钮
+.button-wrap {
+    #toolbar > .item;
+    #accessory > .border-radius();
+
+    &.button-active {
+        #toolbar > .active;
+    }
+
+    .button {
+        #toolbar > .spirit-bg;
+        #colorTheme > .trans-bg;
+
+        // spirit 变量
+        @row-1: -59px;
+        @row-2: -81px;
+        @span: 24px;
+        @start: -2px;
+        @row-1-hover: -155px;
+        @row-2-hover: -177px;
+
+        cursor: pointer;
+        height: @toolbar-button-width;
+        width: @toolbar-button-height;
+        padding: 0;
+        margin: 0;
+        border: none;
+        text-indent: -999em;
+
+        /* css spirit 中第一行的按钮*/
+        &.button-bold {
+            background-position: @start - @span * 2 @row-1;
+        }
+
+        &.button-toggle {
+            background-position: @start - @span * 6 @row-2;
+        }
+
+        /*hover 状态 */
+        /* css spirit 中第一行的按钮*/
+        &.button-bold:not(.disabled):hover {
+            background-position: @start - @span * 2 @row-1-hover;
+        }
+
+        &.button-toggle:not(.disabled):hover {
+            background-position: @start - @span * 6 @row-2-hover;
+        }
+    }
+}

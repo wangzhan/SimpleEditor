@@ -1,0 +1,26 @@
+#accessory {
+    .transition (@property: all, @duration: .3s, @timing-function: ease-in-out, @delay: 0) {
+        -webkit-transition: @arguments;
+        -moz-transition: @arguments;
+        -o-transition: @arguments;
+        transition: @arguments;
+    }
+
+    .border-radius (@top-left: 2px, @top-right: 2px, @bottom-right: 2px, @buttom-left: 2px) {
+        border-radius: @arguments;
+        -webkit-border-radius: @arguments;
+        -moz-border-radius: @arguments;
+        -o-border-radius: @arguments;
+    }
+
+    .box-shadow (@horizontal: 1px, @vertical: 1px, @blur: 0, @color: transparent) {
+        box-shadow: @arguments;
+        -webkit-box-shadow: @arguments;
+        -moz-box-shadow: @arguments;
+        -o-box-shadow: @arguments;
+    }
+
+    .alpha-bg (@alpha: 0.1) {
+        background-color: rgba(0, 0, 0, @alpha);
+    }
+}
